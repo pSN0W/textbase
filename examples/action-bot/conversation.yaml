@@ -1,0 +1,57 @@
+---
+prompts:
+  - greet:
+      examples:
+        - Hi
+        - Good Morning
+
+  - ask_subscribe:
+      examples:
+        - I want to subscribe to the newsletter
+        - Sign up for the news letter
+
+  - ask_docs:
+      examples:
+        - Take me to the docs
+        - Can you redirect me to the documentation
+
+response:
+  greet_back:
+    text: Hi, Welcome to the world of sharks
+
+  subscribe: 
+    api_call: 
+      type: post
+      URL: "http://localhost:5000/get_data"
+      data: subscribe_form
+  
+  subscribe_success:
+    text: Subscribed {email} successfully 
+
+  send_to_docs:
+    redirect:
+        URL: "http://localhost:5000/docs"
+
+form:
+  subscribe_form:
+    - name
+    - email
+    - phone number
+
+story:
+  greeting_story:
+    prompt: greet
+    actions:
+      - greet_back
+  
+  subscribe_it:
+    prompt: ask_subscribe
+    actions:
+      - subscribe
+      - subscribe_success
+
+  go_to_docs:
+    prompt: ask_docs
+    actions:
+      - send_to_docs
+
